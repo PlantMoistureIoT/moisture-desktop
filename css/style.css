@@ -1,0 +1,16 @@
+.status-bar{
+  background-color: #2c3083;
+  height: 35px;
+  color: white;
+  margin: none;
+}
+.net-status{
+  text-align: left;
+  margin-left: 5px;
+  margin-bottom: 5px;
+}
+body{
+  background-color: #4dadde;
+  margin: none;
+  font-family: Roboto;
+}
