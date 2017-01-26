@@ -1,0 +1,19 @@
+{
+  "name": "moisture-desktop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PlantMoistureIoT/moisture-desktop.git"
+  },
+  "author": "Hardik Singh",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/PlantMoistureIoT/moisture-desktop/issues"
+  },
+  "homepage": "https://github.com/PlantMoistureIoT/moisture-desktop#readme"
+}
