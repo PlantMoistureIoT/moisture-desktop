@@ -3,16 +3,19 @@
   border: none;
   background-color: #2C3E50;
   border: none;
-  color:white;
+  color: #83ccdc;
   padding: 25px 0;
   font-size: 2em;
 }
 body{
-  background-color: #4dadde;
+  background-color: #2b2e3b;
   margin: none;
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #212121;
+  color: #83ccdc;
 }
 .info{
   font-size: 1.5em;
+}
+.plant{
+  
 }
