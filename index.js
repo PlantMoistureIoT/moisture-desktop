@@ -1,16 +1,17 @@
-var modules=["https://api.thingspeak.com/channels/9556/status.xml","https://api.thingspeak.com/channels/367346735/status.xml"]
+var modules=["https://api.thingspeak.com/channels/9556/feed.xml","https://api.thingspeak.com/channels/367346735/feed.xml"]
 var activeModules=0;
 $(document).ready(() => {
   setInterval(checkNetStatus, 500);
   for (var i = 0; i < modules.length; i++) {
     var client = new HttpClient();
     client.get(modules[i], function(response) {
-      console.log(response);
-      activeModules++;
+      xmlDoc = $.parseXML(response),
+      $xml = $( xmlDoc ),
+      $title = $xml.find
     });
   }
   for(var i=0;i<activeModules;i++){
-    
+
   }
 });
 function checkNetStatus() {
