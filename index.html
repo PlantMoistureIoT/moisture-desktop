@@ -3,19 +3,36 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--CSS-->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+
+    <!--JS-->
     <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
     <script src="jquery-3.1.1.min.js"></script>
     <script src="index.js"></script>
     <script>if (window.module) module = window.module;</script>
+
   </head>
-  <body>
-    <div class="status-bar">
-      <div class="net-status">
-        <i class="fa fa-globe fa-2x"></i>
+  <body><div class="container">
+    <div class="navbar navbar-default navbar-fixed-top status-bar">
+      <div class="net-status text-left">
+      </div>
+      <div class="module-status text-right">
       </div>
     </div>
-
+    <br /><br /><br /><br /><br />
+    <div class="row plant" id="plant1">
+        <div class="row">
+          <div class="col-md-2">
+            <i class="fa fa-tint" style="font-size: 20em; color: white;"></i>
+          </div>
+          <div class="col-md-6 info" id="info1">
+            <br />Name: Basal<br />
+          </div>
+        </div>
+    </div></div>
   </body>
 </html>

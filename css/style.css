@@ -1,15 +1,18 @@
 .status-bar{
-  background-color: #2c3083;
-  height: 40px;
-  color: white;
-  margin: none;
-}
-.net-status{
-  text-align: left;
-  margin-left: 5px;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  border: none;
+  background-color: #2C3E50;
+  border: none;
+  color:white;
+  padding: 25px 0;
+  font-size: 2em;
 }
 body{
   background-color: #4dadde;
   margin: none;
-  font-family: Roboto;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: white;
+}
+.info{
+  font-size: 1.5em;
 }
