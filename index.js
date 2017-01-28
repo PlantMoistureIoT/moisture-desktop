@@ -5,14 +5,14 @@ $(document).ready(() => {
   for (var i = 0; i < modules.length; i++) {
     var client = new HttpClient();
     client.get(modules[i], function(response) {
-      xmlDoc = $.parseXML(response),
-      $xml = $( xmlDoc ),
-      $title = $xml.find
+    console.log(response);
     });
   }
-  for(var i=0;i<activeModules;i++){
-
-  }
+  $(".well").hover(function(){
+        $(this).css("background-color", "#4a4a55", "border-color", "#4a4a55");
+        }, function(){
+        $(this).css("background-color", "#35353d", "border-color", "#35353d");
+    });
 });
 function checkNetStatus() {
   var online = navigator.onLine;
