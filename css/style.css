@@ -17,5 +17,9 @@ body{
   font-size: 1.5em;
 }
 .plant{
-  
+
+}
+.well{
+  background-color: #35353d !important;
+  border-color: #35353d !important;
 }
