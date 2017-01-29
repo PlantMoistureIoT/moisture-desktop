@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/PlantMoistureIoT/moisture-desktop/issues"
   },
-  "homepage": "https://github.com/PlantMoistureIoT/moisture-desktop#readme"
+  "homepage": "https://github.com/PlantMoistureIoT/moisture-desktop#readme",
+  "devDependencies": {
+    "electron": "^1.4.15",
+    "electron-packager": "^8.5.1"
+  }
 }
