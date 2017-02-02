@@ -1,7 +1,7 @@
 var modules=["https://api.thingspeak.com/channels/9556/feed.xml","https://api.thingspeak.com/channels/367346735/feed.xml"]
 var activeModules=0;
 $(document).ready(() => {
-  setInterval(checkNetStatus, 500);
+  setInterval(checkNetStatus, 1000);
   for (var i = 0; i < modules.length; i++) {
     var client = new HttpClient();
     client.get(modules[i], function(response) {
