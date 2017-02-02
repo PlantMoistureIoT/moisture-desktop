@@ -1,13 +1,12 @@
-var modules=["https://api.thingspeak.com/channels/9556/feed.xml","https://api.thingspeak.com/channels/367346735/feed.xml"]
+var modules=['https://thingspeak.com/channels/218909/feed.json']
 var activeModules=0;
 $(document).ready(() => {
   setInterval(checkNetStatus, 1000);
-  for (var i = 0; i < modules.length; i++) {
-    var client = new HttpClient();
-    client.get(modules[i], function(response) {
-    console.log(response);
-    });
+
+  for(var i = 0 ; i < modules.length ; ++i) {
+    $.getJSON(modules[i],readMoisture);
   }
+
   addPlants();
   $(".well").hover(function(){
         $(this).css("background-color", "#4a4a55", "border-color", "#4a4a55");
@@ -15,6 +14,25 @@ $(document).ready(() => {
         $(this).css("background-color", "#35353d", "border-color", "#35353d");
     });
 });
+
+/*
+ * Fetches the most recent  non null
+ * reading from the ThingSpeak Channel(s)
+ */
+function readMoisture(data,status) {
+    var i;
+    if(status != "success") {
+        console.log(status);
+        return;
+    }
+    for(i = data.feeds.length - 1; i >= 0 ; --i) {
+        if(data.feeds[i].field1 != null) {
+            console.log("Channel : " + data.channel.id);
+            console.log("Most recent value : " + data.feeds[i].field1);
+            break;
+        }
+    }
+}
 function checkNetStatus() {
   var online = navigator.onLine;
   if(online){
@@ -23,18 +41,6 @@ function checkNetStatus() {
   else{
     $(".net-status").html("&nbsp;&nbsp;<i class=\"fa fa-globe\"></i> Not Connected");
   }
-}
-var HttpClient = function() {
-    this.get = function(aUrl, aCallback) {
-        var anHttpRequest = new XMLHttpRequest();
-        anHttpRequest.onreadystatechange = function() {
-            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
-                aCallback(anHttpRequest.responseText);
-        }
-
-        anHttpRequest.open( "GET", aUrl, true );
-        anHttpRequest.send( null );
-    }
 }
 
 /*
