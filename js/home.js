@@ -1,5 +1,5 @@
 const storage = require('electron-json-storage')
-var modules=['https://thingspeak.com/channels/218909/feed.json']
+var modules = []
 var activeModules=0;
 $(document).ready(() => {
   setInterval(checkNetStatus, 1000);
@@ -23,6 +23,34 @@ $(document).ready(() => {
     });
   });
 });
+
+/*
+ * Writes the current ThingSpeak in
+ * the modules array to a local json
+ * file called 'modules.json'. All changes
+ * are overwritten after each call.
+ */
+function writeStorage() {
+  console.log("Writing : " + modules);
+  storage.set('modules.json', modules, function(error) {
+    if (error)
+      throw error;
+  });
+}
+
+/*
+ * Reads the ThingSpeak channels
+ * from a local json file called
+ * 'modules.json'
+ */
+function readStorage() {
+  storage.get('modules.json', function(error, data) {
+    if (error)
+      throw error;
+    modules = data;
+    console.log("Read : " + modules);
+  });
+}
 
 /*
  * Fetches the most recent  non null
