@@ -8,7 +8,7 @@ let win
 function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({width: 1366, height: 768})
-  win.setMenu(null);
+
   // and load the index.html of the app.
   win.loadURL(url.format({
     pathname: path.join(__dirname, '/windows/home.html'),
