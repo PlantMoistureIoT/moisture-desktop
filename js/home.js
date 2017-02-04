@@ -1,3 +1,4 @@
+const storage = require('electron-json-storage')
 var modules=['https://thingspeak.com/channels/218909/feed.json']
 var activeModules=0;
 $(document).ready(() => {
