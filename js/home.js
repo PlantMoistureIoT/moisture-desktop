@@ -57,7 +57,7 @@ function checkNetStatus() {
 function newPlant(name,id) {
   var plant = document.createElement('div');
   plant.className = "col-xs-6 col-lg-4";
-  plant.innerHTML = '<div class="plant col-xs-12 col-lg-12 well" id="' + id + '" >\
+  plant.innerHTML = '<div class="col-xs-12 col-lg-12 well" id="' + id + '" >\
     <div class="row">\
         <div class="col-xs-2 col-lg-2">\
            <br />\
