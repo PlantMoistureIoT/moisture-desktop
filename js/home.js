@@ -69,7 +69,8 @@ function newPlant(name,id) {
  */
 function addPlants() {
     var plantList = document.getElementById("plantList");
-    plantList.appendChild(newPlant("Banyan",0));
-    plantList.appendChild(newPlant("Pine",1));
-    plantList.appendChild(newPlant("Rosewood",2));
+    var addBtn = document.getElementById("addBtn");
+    plantList.insertBefore(newPlant("Banyan",0),addBtn);
+    plantList.insertBefore(newPlant("Pine",1),addBtn);
+    plantList.insertBefore(newPlant("Rosewood",2),addBtn);
 }
