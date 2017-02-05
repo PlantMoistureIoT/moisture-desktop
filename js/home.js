@@ -1,4 +1,8 @@
 const storage = require('electron-json-storage')
+const {BrowserWindow} = require('electron').remote
+const {ipcRenderer} = require('electron')
+const path = require('path')
+const url = require('url')
 var modules = []
 var activeModules=0;
 $(document).ready(() => {
@@ -21,6 +25,14 @@ $(document).ready(() => {
     function(){
       $(this).removeClass('animated pulse');
     });
+    ipcRenderer.send('toggle-add-window')//Send visibilty toggle request to main process
+  });
+
+  $(".plant").click(() => {
+    //Creates a new window for the graphs
+    var graphWindow = new BrowserWindow({width: 450, height: 280, show: false})
+    graphWindow.loadURL('https://thingspeak.com/channels/218909/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15')
+    graphWindow.show()
   });
 });
 
@@ -86,7 +98,7 @@ function checkNetStatus() {
 function newPlant(name,id) {
   var plant = document.createElement('div');
   plant.className = "col-xs-6 col-lg-4";
-  plant.innerHTML = '<div class="col-xs-12 col-lg-12 well" id="' + id + '" >\
+  plant.innerHTML = '<div class="col-xs-12 col-lg-12 well plant" id="' + id + '" >\
     <div class="row">\
         <div class="col-xs-2 col-lg-2">\
            <br />\
