@@ -130,8 +130,8 @@
   }
 
   50% {
-    -webkit-transform: scale3d(1.7, 1.7, 1.7);
-    transform: scale3d(1.7, 1.7, 1.7);
+    -webkit-transform: scale3d(1.2, 1.2, 1.2);
+    transform: scale3d(1.2, 1.2, 1.2);
   }
 
   to {
@@ -147,8 +147,8 @@
   }
 
   50% {
-    -webkit-transform: scale3d(1.7, 1.7, 1.7);
-    transform: scale3d(1.7, 1.7, 1.7);
+    -webkit-transform: scale3d(1.2, 1.2, 1.2);
+    transform: scale3d(1.2, 1.2, 1.2);
   }
 
   to {
