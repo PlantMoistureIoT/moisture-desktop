@@ -3,8 +3,16 @@ const {BrowserWindow} = require('electron').remote
 const {ipcRenderer} = require('electron')
 const path = require('path')
 const url = require('url')
+
 var modules = []
-var activeModules=0;
+
+function Plant(name,moisture,channel,lastUpdated) {
+    this.name = name;
+    this.moisture = moisture;
+    this.channel = channel;
+    this.lastUpdated = lastUpdated;
+}
+
 $(document).ready(() => {
   setInterval(checkNetStatus, 1000);
 
@@ -73,7 +81,8 @@ function readStorage() {
      * reading the local file and inflating the modules array
      */
     for(var i = 0 ; i < modules.length ; ++i) {
-      $.getJSON(modules[i],readMoisture);
+      $.getJSON('https://thingspeak.com/channels/'+ modules[i].channel +
+        '/feed.json',updateModules);
     }
   });
 }
@@ -82,17 +91,25 @@ function readStorage() {
  * Fetches the most recent  non null
  * reading from the ThingSpeak Channel(s)
  */
-function readMoisture(data,status) {
+function updateModules(data,status) {
     var i;
     if(status != "success") {
         console.log(status);
         return;
     }
+
+    /* Find which module we are updating */
+    var modules_index;
+    for(i = 0 ; i < modules.length ; ++i) {
+        if(modules[i].channel == data.channel.id) {
+            modules_index = i;
+            break;
+        }
+    }
     for(i = data.feeds.length - 1; i >= 0 ; --i) {
         if(data.feeds[i].field1 != null) {
-            console.log("Channel : " + data.channel.id);
-            console.log("Most recent value : " + data.feeds[i].field1);
-            console.log("Last Updated : " + getDateDiff(data.feeds[i].created_at));
+            modules[modules_index].moisture = data.feeds[i].field1;
+            modules[modules_index].lastUpdated = getDateDiff(data.feeds[i].created_at);
             break;
         }
     }
