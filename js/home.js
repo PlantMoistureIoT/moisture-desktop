@@ -14,7 +14,7 @@ $(document).ready(() => {
 
   addPlants();
 
-  $(".well").hover(function(){
+  $(".well").hover(() => {
         $(this).css("background-color", "#4a4a55", "border-color", "#4a4a55");
         }, function(){
         $(this).css("background-color", "#35353d", "border-color", "#35353d");
