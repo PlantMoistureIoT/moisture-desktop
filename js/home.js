@@ -28,6 +28,13 @@ $(document).ready(() => {
     ipcRenderer.send('toggle-add-window')//Send visibilty toggle request to main process
   });
 
+  $(".well").click(function () {
+    $(this).addClass('animated pulse').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+    function(){
+      $(this).removeClass('animated pulse');
+    });
+  });
+
   $(".plant").click(() => {
     //Creates a new window for the graphs
     var graphWindow = new BrowserWindow({width: 450, height: 280, show: false})
