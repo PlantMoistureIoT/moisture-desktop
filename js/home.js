@@ -8,9 +8,7 @@ var activeModules=0;
 $(document).ready(() => {
   setInterval(checkNetStatus, 1000);
 
-  for(var i = 0 ; i < modules.length ; ++i) {
-    $.getJSON(modules[i],readMoisture);
-  }
+  readStorage();
 
   addPlants();
 
@@ -70,6 +68,13 @@ function readStorage() {
       throw error;
     modules = data;
     console.log("Read : " + modules);
+
+    /* Fetch values from ThingSpeak only after
+     * reading the local file and inflating the modules array
+     */
+    for(var i = 0 ; i < modules.length ; ++i) {
+      $.getJSON(modules[i],readMoisture);
+    }
   });
 }
 
