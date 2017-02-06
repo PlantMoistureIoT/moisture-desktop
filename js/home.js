@@ -87,6 +87,7 @@ function readMoisture(data,status) {
         if(data.feeds[i].field1 != null) {
             console.log("Channel : " + data.channel.id);
             console.log("Most recent value : " + data.feeds[i].field1);
+            console.log("Last Updated : " + getDateDiff(data.feeds[i].created_at));
             break;
         }
     }
@@ -132,3 +133,36 @@ function addPlants() {
     plantList.insertBefore(newPlant("Pine",1),addBtn);
     plantList.insertBefore(newPlant("Rosewood",2),addBtn);
 }
+
+/* Parses the passed ISO date and returns the difference
+ * between the current time and the date parameter
+ */
+ function getDateDiff(created_at) {
+   var date = new Date(created_at);
+   var diff = new Date() - date;
+   var x = Math.trunc(diff / 1000);
+   var seconds = x % 60;
+   x = Math.trunc(x/60);
+   var minutes = x % 60;
+   x = Math.trunc(x/60);
+   var hours = x % 24;
+   x = Math.trunc(x/24);
+   var days = x;
+
+   var str = '';
+   if(days > 0) {
+       str += days + " days ";
+   }
+   if(hours > 0) {
+       str += hours + " hours ";
+   }
+   if(minutes > 0) {
+       str += minutes + " mins ";
+   }
+   if(seconds > 0 && minutes <= 0 && hours <= 0 && days <= 0) {
+       str += seconds + " seconds ";
+   }
+
+   str += "ago";
+   return str;
+ }
