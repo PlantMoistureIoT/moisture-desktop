@@ -31,20 +31,24 @@ function createWindow () {
 //Create plant addition window
 app.on('ready', function() {
   createWindow()
-  var addWindow = new BrowserWindow({width:400, height: 400, show: false})
-  addWindow.loadURL(url.format({
-    pathname: path.join(__dirname, '/windows/add.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
 
   //Toggle plant addition window visibilty on request
   ipcMain.on('toggle-add-window', function() {
-    if(!addWindow.isVisible()){
+    try {
+      if(!addWindow.isVisible()){
+        addWindow.show();
+      }
+      else{
+        addWindow.hide();
+      }
+    } catch (e) {
+      var addWindow = new BrowserWindow({width:400, height: 400, show: false, center: true, alwaysOnTop: true})
+      addWindow.loadURL(url.format({
+        pathname: path.join(__dirname, '/windows/add.html'),
+        protocol: 'file:',
+        slashes: true
+      }))
       addWindow.show();
-    }
-    else{
-      addWindow.hide();
     }
   })
 })
