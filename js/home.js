@@ -5,6 +5,7 @@ const path = require('path')
 const url = require('url')
 
 var modules = []
+var modules_index;
 
 function Plant(name,moisture,channel,lastUpdated) {
     this.name = name;
@@ -80,6 +81,7 @@ function readStorage() {
     /* Fetch values from ThingSpeak only after
      * reading the local file and inflating the modules array
      */
+    modules_index = 0;
     for(var i = 0 ; i < modules.length ; ++i) {
       $.getJSON('https://thingspeak.com/channels/'+ modules[i].channel +
         '/feed.json',updateModules);
@@ -98,14 +100,6 @@ function updateModules(data,status) {
         return;
     }
 
-    /* Find which module we are updating */
-    var modules_index;
-    for(i = 0 ; i < modules.length ; ++i) {
-        if(modules[i].channel == data.channel.id) {
-            modules_index = i;
-            break;
-        }
-    }
     for(i = data.feeds.length - 1; i >= 0 ; --i) {
         if(data.feeds[i].field1 != null) {
             modules[modules_index].moisture = data.feeds[i].field1;
@@ -113,6 +107,7 @@ function updateModules(data,status) {
             break;
         }
     }
+    ++modules_index; // Update the global variable modules_index
 }
 function checkNetStatus() {
   var online = navigator.onLine;
