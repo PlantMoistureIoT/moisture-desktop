@@ -51,6 +51,7 @@ app.on('ready', function() {
         protocol: 'file:',
         slashes: true
       }))
+      addWindow.setMenu(null)
       addWindow.once('ready-to-show', () => {
         addWindow.show()
       })

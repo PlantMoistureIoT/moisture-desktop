@@ -46,6 +46,7 @@ $(document).ready(() => {
     //Creates a new window for the graphs
     var graphWindow = new BrowserWindow({width: 450, height: 280, show: false})
     graphWindow.loadURL('https://thingspeak.com/channels/218909/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15')
+    graphWindow.setMenu(null);
     graphWindow.once('ready-to-show', () => {
       graphWindow.show()
     })
