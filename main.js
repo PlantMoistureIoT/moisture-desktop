@@ -57,6 +57,29 @@ app.on('ready', function() {
       })
     }
   })
+
+  ipcMain.on('toggle-err-window', function() {
+    try {
+      if(!errWindow.isVisible()){
+        errWindow.show();
+      }
+      else{
+        errWindow.hide();
+      }
+    } catch (e) {
+      var errWindow = new BrowserWindow({width:400, height: 400, show: false, center: true, alwaysOnTop: true})
+      errWindow.loadURL(url.format({
+        pathname: path.join(__dirname, '/windows/404.html'),
+        protocol: 'file:',
+        slashes: true
+      }))
+      errWindow.setMenu(null)
+      errWindow.once('ready-to-show', () => {
+        errWindow.show()
+      })
+    }
+  })
+
 })
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
