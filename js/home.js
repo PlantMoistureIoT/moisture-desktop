@@ -44,6 +44,7 @@ $(document).ready(() => {
 
   $(".plant").click(() => {
     //Creates a new window for the graphs
+    console.log(navigator.onLine)
     if(navigator.onLine){
       var graphWindow = new BrowserWindow({width: 450, height: 280, show: false})
       graphWindow.loadURL('https://thingspeak.com/channels/218909/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15')
@@ -53,6 +54,7 @@ $(document).ready(() => {
       })
     }
     else{
+      console.log('toggle-err-window');
       ipcRenderer.send('toggle-err-window')
     }
   });

@@ -66,7 +66,7 @@ app.on('ready', function() {
       else{
         errWindow.hide();
       }
-    } catch (e) {
+    } catch (e1) {
       var errWindow = new BrowserWindow({width:400, height: 400, show: false, center: true, alwaysOnTop: true})
       errWindow.loadURL(url.format({
         pathname: path.join(__dirname, '/windows/404.html'),
