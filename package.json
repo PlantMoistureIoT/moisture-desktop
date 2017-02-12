@@ -22,6 +22,5 @@
   },
   "dependencies": {
     "electron-json-storage": "^3.0.1",
-    "electron-window-helper": "0.0.8"
   }
 }

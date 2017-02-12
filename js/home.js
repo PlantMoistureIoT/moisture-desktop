@@ -65,6 +65,10 @@ $(document).ready(() => {
        })
     }
   });
+
+  ipcRenderer.on('sending-data', (event, message) => {
+    console.log(message)
+  })
 });
 
 /*

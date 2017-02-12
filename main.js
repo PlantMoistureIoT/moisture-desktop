@@ -52,6 +52,10 @@ app.on('ready', function() {
        addWindow.hide();
      }
    })
+
+   ipcMain.on('send-data', (event, message)=>{
+      win.webContents.send('sending-data', message)
+   })
 })
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
