@@ -21,6 +21,7 @@
     "electron-packager": "^8.5.1"
   },
   "dependencies": {
-    "electron-json-storage": "^3.0.1"
+    "electron-json-storage": "^3.0.1",
+    "electron-window-helper": "0.0.8"
   }
 }

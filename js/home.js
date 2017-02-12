@@ -54,8 +54,15 @@ $(document).ready(() => {
       })
     }
     else{
-      console.log('toggle-err-window');
-      ipcRenderer.send('toggle-err-window')
+      var errWindow = new BrowserWindow({width:400, height: 280, show: false})
+       errWindow.loadURL(url.format({
+         pathname: path.join(__dirname, '../windows/404.html'),
+         protocol: 'file:',
+         slashes: true
+       }))
+       errWindow.once('ready-to-show', () => {
+         errWindow.show()
+       })
     }
   });
 });

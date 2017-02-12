@@ -36,55 +36,27 @@ app.on('ready', function() {
   createWindow()
 
   //Toggle plant addition window visibilty on request
-  ipcMain.on('toggle-add-window', function() {
-    try {
-      if(!addWindow.isVisible()){
-        addWindow.show();
-      }
-      else{
-        addWindow.hide();
-      }
-    } catch (e) {
-      var addWindow = new BrowserWindow({width:400, height: 400, show: false, center: true, alwaysOnTop: true})
-      addWindow.loadURL(url.format({
-        pathname: path.join(__dirname, '/windows/add.html'),
-        protocol: 'file:',
-        slashes: true
-      }))
-      addWindow.setMenu(null)
-      addWindow.once('ready-to-show', () => {
-        addWindow.show()
-      })
-    }
-  })
+  var addWindow = new BrowserWindow({width:400, height: 280, show: false, frame: false})
+   addWindow.loadURL(url.format({
+     pathname: path.join(__dirname, '/windows/add.html'),
+     protocol: 'file:',
+     slashes: true
+   }))
 
-  ipcMain.on('toggle-err-window', function() {
-    try {
-      if(!errWindow.isVisible()){
-        errWindow.show();
-      }
-      else{
-        errWindow.hide();
-      }
-    } catch (e1) {
-      var errWindow = new BrowserWindow({width:400, height: 400, show: false, center: true, alwaysOnTop: true})
-      errWindow.loadURL(url.format({
-        pathname: path.join(__dirname, '/windows/404.html'),
-        protocol: 'file:',
-        slashes: true
-      }))
-      errWindow.setMenu(null)
-      errWindow.once('ready-to-show', () => {
-        errWindow.show()
-      })
-    }
-  })
-
+   //Toggle plant addition window visibilty on request
+   ipcMain.on('toggle-add-window', function() {
+     if(!addWindow.isVisible()){
+       addWindow.show();
+     }
+     else{
+       addWindow.hide();
+     }
+   })
 })
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
+  // to stay active until the user quits explicitly with Cmd  Q
   if (process.platform !== 'darwin') {
     app.quit()
   }
