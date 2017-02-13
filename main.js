@@ -6,6 +6,7 @@ const {ipcMain} = electron;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
+let addWindow
 function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({width: 1366, height: 768, show: false})
@@ -32,17 +33,19 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 
+function createAddWindow() {
+  addWindow = new BrowserWindow({width:400, height: 280, show: false, frame: true, parent: win})
+  addWindow.loadURL(url.format({
+    pathname: path.join(__dirname, '/windows/add.html'),
+    protocol: 'file:',
+    slashes: true
+  }))
+}
+
 //Create plant addition window
 app.on('ready', function() {
   createWindow()
-
-  //Toggle plant addition window visibilty on request
-  var addWindow = new BrowserWindow({width:400, height: 280, show: false, frame: false})
-   addWindow.loadURL(url.format({
-     pathname: path.join(__dirname, '/windows/add.html'),
-     protocol: 'file:',
-     slashes: true
-   }))
+  createAddWindow()
 
    //Toggle plant addition window visibilty on request
    ipcMain.on('toggle-add-window', function() {
@@ -52,6 +55,11 @@ app.on('ready', function() {
      else{
        addWindow.hide();
      }
+   })
+
+   addWindow.on('close', function (event) {
+     addWindow.hide();
+     event.preventDefault();
    })
 
    ipcMain.on('send-data', (event, message)=>{
