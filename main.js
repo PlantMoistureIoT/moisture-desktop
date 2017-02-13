@@ -34,7 +34,7 @@ function createWindow () {
 // Some APIs can only be used after this event occurs.
 
 function createAddWindow() {
-  addWindow = new BrowserWindow({width:400, height: 280, show: false, frame: true, parent: win})
+  addWindow = new BrowserWindow({width:400, height: 280, show: false, frame: true, parent: win, backgroundColor: '#2b2e3b'})
   addWindow.loadURL(url.format({
     pathname: path.join(__dirname, '/windows/add.html'),
     protocol: 'file:',
@@ -50,6 +50,7 @@ app.on('ready', function() {
    //Toggle plant addition window visibilty on request
    ipcMain.on('toggle-add-window', function() {
      if(!addWindow.isVisible()){
+       addWindow.reload()
        addWindow.show();
      }
      else{
