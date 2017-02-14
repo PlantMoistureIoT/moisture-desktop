@@ -101,19 +101,23 @@ function readStorage() {
     /* Fetch values from ThingSpeak only after
      * reading the local file and inflating the modules array
      */
+    updateModules();
+  });
+}
+
+function updateModules() {
     modules_index = 0;
     for(var i = 0 ; i < modules.length ; ++i) {
-      $.getJSON('https://thingspeak.com/channels/'+ modules[i].channel +
-        '/feed.json',updateModules);
-    }
-  });
+    $.getJSON('https://thingspeak.com/channels/'+ modules[i].channel +
+      '/feed.json',updateModules_callback);
+  }
 }
 
 /*
  * Fetches the most recent  non null
  * reading from the ThingSpeak Channel(s)
  */
-function updateModules(data,status) {
+function updateModules_callback(data,status) {
     var i;
     if(status != "success") {
         console.log(status);
