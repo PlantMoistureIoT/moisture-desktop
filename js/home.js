@@ -19,13 +19,7 @@ $(document).ready(() => {
 
   readStorage();
 
-  addPlants();
 
-  $(".well").hover(function () {
-    $(this).css("background-color", "#4a4a55", "border-color", "#4a4a55");
-    }, function(){
-    $(this).css("background-color", "#35353d", "border-color", "#35353d");
-    });
 
   $("#addBtn").click(() => {
     $(".addIcon").addClass('animated pulse').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
@@ -35,40 +29,10 @@ $(document).ready(() => {
     ipcRenderer.send('toggle-add-window')//Send visibilty toggle request to main process
   });
 
-  $(".well").click(function () {
-    $(this).addClass('animated pulse').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
-    function(){
-      $(this).removeClass('animated pulse');
-    });
-  });
-
-  $(".plant").click(() => {
-    //Creates a new window for the graphs
-    console.log(navigator.onLine)
-    if(navigator.onLine){
-      var graphWindow = new BrowserWindow({width: 450, height: 280, show: false})
-      graphWindow.loadURL('https://thingspeak.com/channels/218909/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15')
-      graphWindow.setMenu(null);
-      graphWindow.once('ready-to-show', () => {
-        graphWindow.show()
-      })
-    }
-    else{
-      var errWindow = new BrowserWindow({width:400, height: 280, show: false})
-       errWindow.loadURL(url.format({
-         pathname: path.join(__dirname, '../windows/404.html'),
-         protocol: 'file:',
-         slashes: true
-       }))
-       errWindow.once('ready-to-show', () => {
-         errWindow.show()
-       })
-    }
-  });
 
   ipcRenderer.on('sending-data', (event, data) => {
     modules.push(data);
-    console.log(modules);
+    writeStorage();
   })
 });
 
@@ -102,6 +66,7 @@ function readStorage() {
      * reading the local file and inflating the modules array
      */
     updateModules();
+    addPlants();
   });
 }
 
@@ -146,17 +111,18 @@ function checkNetStatus() {
 /*
  * Creates a new plant div and returns it
  */
-function newPlant(name,id) {
+function newPlant(module_i,id) {
   var plant = document.createElement('div');
   plant.className = "col-xs-6 col-lg-4";
-  plant.innerHTML = '<div class="col-xs-12 col-lg-12 well plant" id="' + id + '" >\
+  plant.innerHTML = '<div onclick="openGraph(' + module_i.channel + ')" class="col-xs-12 col-lg-12 well plant" id="' + id + '" >\
     <div class="row">\
         <div class="col-xs-2 col-lg-2">\
            <br />\
            <i class="fa fa-tint" style="font-size: 5em;"></i>\
         </div>\
         <div class="info text-center col-xs-10 col-lg-10" id="info12">\
-           <br />Name: ' + name + '<br />Moisture: 81%<br />Updated: 3 seconds ago<br /><br />\
+           <br />Name: ' + module_i.name + '<br />Moisture: ' + module_i.moisture + '% <br />Updated: '
+            + module_i.lastUpdated + '<br /><br />\
         </div>\
     </div>\
   </div>';
@@ -165,14 +131,28 @@ function newPlant(name,id) {
 }
 
 /*
- * Test drive the newPlant() function
+ * Add plants currently in 'modules' to the UI
  */
 function addPlants() {
     var plantList = document.getElementById("plantList");
     var addBtn = document.getElementById("addBtn");
-    plantList.insertBefore(newPlant("Banyan",0),addBtn);
-    plantList.insertBefore(newPlant("Pine",1),addBtn);
-    plantList.insertBefore(newPlant("Rosewood",2),addBtn);
+    console.log(modules);
+    for(var i = 0 ; i < modules.length ; ++i) {
+        plantList.insertBefore(newPlant(modules[i],i),addBtn);
+    }
+
+    $(".well").hover(function () {
+      $(this).css("background-color", "#4a4a55", "border-color", "#4a4a55");
+      }, function(){
+      $(this).css("background-color", "#35353d", "border-color", "#35353d");
+      });
+
+    $(".well").click(function () {
+        $(this).addClass('animated pulse').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+        function(){
+          $(this).removeClass('animated pulse');
+        });
+      });
 }
 
 /* Parses the passed ISO date and returns the difference
@@ -206,4 +186,28 @@ function addPlants() {
 
    str += "ago";
    return str;
+ }
+
+ function openGraph(channel) {
+   if(navigator.onLine){
+     var graphWindow = new BrowserWindow({width: 450, height: 280, show: false})
+     var URL = 'https://thingspeak.com/channels/' + channel +
+     '/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15';
+     graphWindow.loadURL(URL);
+     graphWindow.setMenu(null);
+     graphWindow.once('ready-to-show', () => {
+       graphWindow.show()
+     })
+   }
+   else{
+     var errWindow = new BrowserWindow({width:400, height: 280, show: false})
+      errWindow.loadURL(url.format({
+        pathname: path.join(__dirname, '../windows/404.html'),
+        protocol: 'file:',
+        slashes: true
+      }))
+      errWindow.once('ready-to-show', () => {
+        errWindow.show()
+      })
+   }
  }
