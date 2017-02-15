@@ -79,8 +79,10 @@ function readStorage() {
   storage.get('modules.json', function(error, data) {
     if (error)
       throw error;
+
     modules = data;
-    console.log("Read : " + modules);
+    if(modules.length == undefined)
+        modules = [];
 
     /* Fetch values from ThingSpeak only after
      * reading the local file and inflating the modules array
