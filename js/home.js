@@ -32,6 +32,7 @@ $(document).ready(() => {
 
   ipcRenderer.on('sending-data', (event, data) => {
     modules.push(data);
+    addPlantUI(data,modules.length-1);
     writeStorage();
   })
 });
@@ -66,7 +67,7 @@ function readStorage() {
      * reading the local file and inflating the modules array
      */
     updateModules();
-    addPlants();
+    addAllPlants();
   });
 }
 
@@ -130,29 +131,36 @@ function newPlant(module_i,id) {
   return plant;
 }
 
+/* Add the parameter to the UI, just
+ * before the Add Button block
+ */
+function addPlantUI(module_i,index){
+  var plantList = document.getElementById("plantList");
+  var addBtn = document.getElementById("addBtn");
+  plantList.insertBefore(newPlant(module_i,index),addBtn);
+  $(".well").hover(function () {
+    $(this).css("background-color", "#4a4a55", "border-color", "#4a4a55");
+    }, function(){
+    $(this).css("background-color", "#35353d", "border-color", "#35353d");
+    });
+
+  $(".well").click(function () {
+      $(this).addClass('animated pulse').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+      function(){
+        $(this).removeClass('animated pulse');
+      });
+    });
+
+}
+
 /*
  * Add plants currently in 'modules' to the UI
  */
-function addPlants() {
-    var plantList = document.getElementById("plantList");
-    var addBtn = document.getElementById("addBtn");
+function addAllPlants() {
     console.log(modules);
     for(var i = 0 ; i < modules.length ; ++i) {
-        plantList.insertBefore(newPlant(modules[i],i),addBtn);
+        addPlantUI(modules[i],i);
     }
-
-    $(".well").hover(function () {
-      $(this).css("background-color", "#4a4a55", "border-color", "#4a4a55");
-      }, function(){
-      $(this).css("background-color", "#35353d", "border-color", "#35353d");
-      });
-
-    $(".well").click(function () {
-        $(this).addClass('animated pulse').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
-        function(){
-          $(this).removeClass('animated pulse');
-        });
-      });
 }
 
 /* Parses the passed ISO date and returns the difference
