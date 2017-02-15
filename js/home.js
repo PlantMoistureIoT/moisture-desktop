@@ -16,6 +16,7 @@ function Plant(name,moisture,channel,lastUpdated) {
 
 $(document).ready(() => {
   setInterval(checkNetStatus, 1000);
+  setInterval(updateUI,5000);
 
   readStorage();
 
@@ -36,6 +37,24 @@ $(document).ready(() => {
     writeStorage();
   })
 });
+
+/* Update moisture and last updated values
+ * which are displayed on the screen
+ */
+function updateUI() {
+    if(modules.length==0)
+        return;
+    console.log("UPDATING MODULES");
+    updateModules();
+    for(var i = 0 ; i < modules.length ; ++i) {
+          var moisture_i = document.getElementById("moisture_"+i);
+          moisture_i.innerHTML = 'Moisture: ' + modules[i].moisture + '% <br />';
+
+          var lastUpdated_i = document.getElementById("lastUpdated_"+i);
+          lastUpdated_i.innerHTML = 'Updated: ' + modules[i].lastUpdated + '<br /><br />'
+    }
+    writeStorage();
+}
 
 /*
  * Writes the current ThingSpeak in
@@ -91,7 +110,7 @@ function updateModules_callback(data,status) {
     }
 
     for(i = data.feeds.length - 1; i >= 0 ; --i) {
-        if(data.feeds[i].field1 != null) {
+        if(data.feeds[i].field1 != null && modules[modules_index]!=null) {
             modules[modules_index].moisture = data.feeds[i].field1;
             modules[modules_index].lastUpdated = getDateDiff(data.feeds[i].created_at);
             break;
@@ -122,8 +141,9 @@ function newPlant(module_i,id) {
            <i class="fa fa-tint" style="font-size: 5em;"></i>\
         </div>\
         <div class="info text-center col-xs-10 col-lg-10" id="info12">\
-           <br />Name: ' + module_i.name + '<br />Moisture: ' + module_i.moisture + '% <br />Updated: '
-            + module_i.lastUpdated + '<br /><br />\
+           <div><br />Name: ' + module_i.name + '<br /></div>\
+           <div id="moisture_' + id + '">Moisture: ' + module_i.moisture + '% <br /></div>\
+           <div id="lastUpdated_' + id + '">Updated: ' + module_i.lastUpdated + '<br /><br /></div>\
         </div>\
     </div>\
   </div>';
