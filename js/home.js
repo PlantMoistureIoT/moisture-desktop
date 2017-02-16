@@ -5,7 +5,6 @@ const path = require('path')
 const url = require('url')
 
 var modules = []
-var modules_index;
 
 function Plant(name,moisture,channel,lastUpdated) {
     this.name = name;
@@ -87,13 +86,11 @@ function readStorage() {
     /* Fetch values from ThingSpeak only after
      * reading the local file and inflating the modules array
      */
-    updateModules();
     addAllPlants();
   });
 }
 
 function updateModules() {
-    modules_index = 0;
     for(var i = 0 ; i < modules.length ; ++i) {
     $.getJSON('https://thingspeak.com/channels/'+ modules[i].channel +
       '/feed.json',updateModules_callback);
@@ -111,14 +108,24 @@ function updateModules_callback(data,status) {
         return;
     }
 
-    for(i = data.feeds.length - 1; i >= 0 ; --i) {
-        if(data.feeds[i].field1 != null && modules[modules_index]!=null) {
-            modules[modules_index].moisture = data.feeds[i].field1;
-            modules[modules_index].lastUpdated = getDateDiff(data.feeds[i].created_at);
+    /* Find out which index is being updated */
+    var index;
+    for(i = 0 ; i < modules.length ; ++i) {
+        if(data.channel.id == modules[i].channel) {
+            console.log("Index = " + i);
+            index = i;
             break;
         }
     }
-    ++modules_index; // Update the global variable modules_index
+
+
+    for(i = data.feeds.length - 1; i >= 0 ; --i) {
+        if(data.feeds[i].field1 != null) {
+            modules[index].moisture = data.feeds[i].field1;
+            modules[index].lastUpdated = getDateDiff(data.feeds[i].created_at);
+            break;
+        }
+    }
 }
 function checkNetStatus() {
   var online = navigator.onLine;
