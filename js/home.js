@@ -6,13 +6,6 @@ const url = require('url')
 
 var modules = []
 
-function Plant(name,moisture,channel,lastUpdated) {
-    this.name = name;
-    this.moisture = moisture;
-    this.channel = channel;
-    this.lastUpdated = lastUpdated;
-}
-
 $(document).ready(() => {
   setInterval(checkNetStatus, 1000);
   setInterval(updateUI,5000);
