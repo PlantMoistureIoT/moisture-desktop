@@ -203,18 +203,15 @@ function addAllPlants() {
    var str = '';
    if(days > 0) {
        str += days + " days ";
-   }
-   if(hours > 0) {
+   } else if(hours > 0) {
        str += hours + " hours ";
-   }
-   if(minutes > 0) {
+   } else if(minutes > 0) {
        str += minutes + " mins ";
-   }
-   if(seconds > 0 && minutes <= 0 && hours <= 0 && days <= 0) {
+   } else if(seconds > 0) {
        str += seconds + " seconds ";
    }
-
    str += "ago";
+
    return str;
  }
 
