@@ -140,7 +140,7 @@ function newPlant(module_i,id) {
     <div class="row">\
         <div class="col-xs-2 col-lg-2">\
            <br />\
-           <i class="fa fa-tint" style="font-size: 5em;"></i>\
+           <img src="../res/tint_outline.svg" class="tint">\
         </div>\
         <div class="info text-center col-xs-10 col-lg-10" id="info12">\
            <div><br />Name: ' + module_i.name + '<br /></div>\

@@ -29,3 +29,11 @@ html{
   user-select: none;
   cursor: default;
 }
+.tint{
+  height: 100px;
+  width: 50px;
+}
+.plus{
+  height: 62px;
+  width: 50px;
+}

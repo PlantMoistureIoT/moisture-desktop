@@ -15,9 +15,10 @@ html{
 }
 button{
   padding: 0;
-  border: none;
+  border: #83ccdc;
   background: none;
-  outline: none;
+  outline: #83ccdc;
+  font-size: 1.5em;
 }
 form{
   font-size: 1.5em;
