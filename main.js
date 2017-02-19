@@ -9,7 +9,7 @@ let win
 let addWindow
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({width: 1366, height: 768, show: false})
+  win = new BrowserWindow({width: 1366, height: 768, show: false, resizable: false})
 
   // and load the index.html of the app.
   win.loadURL(url.format({
@@ -34,7 +34,7 @@ function createWindow () {
 // Some APIs can only be used after this event occurs.
 
 function createAddWindow() {
-  addWindow = new BrowserWindow({width:400, height: 300, show: false, frame: true, parent: win, backgroundColor: '#2b2e3b'})
+  addWindow = new BrowserWindow({width:400, height: 280, show: false, frame: true, parent: win, backgroundColor: '#2b2e3b', resizable: false})
   addWindow.loadURL(url.format({
     pathname: path.join(__dirname, '/windows/add.html'),
     protocol: 'file:',
