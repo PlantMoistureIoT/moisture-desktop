@@ -40,6 +40,7 @@ function createAddWindow() {
     protocol: 'file:',
     slashes: true
   }))
+  addWindow.setMenu(null)
 }
 
 //Create plant addition window
