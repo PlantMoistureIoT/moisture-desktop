@@ -5,6 +5,7 @@ const path = require('path')
 const url = require('url')
 
 var modules = []
+var stopBubbling;
 
 $(document).ready(() => {
   setInterval(checkNetStatus, 1000);
@@ -25,7 +26,7 @@ $(document).ready(() => {
 
   ipcRenderer.on('sending-data', (event, data) => {
     modules.push(data);
-    addPlantUI(data,modules.length-1);
+    addPlantUI(data);
     writeStorage();
   })
 });
@@ -39,10 +40,10 @@ function updateUI() {
     console.log("UPDATING MODULES");
     updateModules();
     for(var i = 0 ; i < modules.length ; ++i) {
-          var moisture_i = document.getElementById("moisture_"+i);
+          var moisture_i = document.getElementById("moisture_"+modules[i].channel);
           moisture_i.innerHTML = 'Moisture: ' + modules[i].moisture + '% <br />';
 
-          var lastUpdated_i = document.getElementById("lastUpdated_"+i);
+          var lastUpdated_i = document.getElementById("lastUpdated_"+modules[i].channel);
           lastUpdated_i.innerHTML = 'Updated: ' + modules[i].lastUpdated + '<br /><br />'
     }
     writeStorage();
@@ -131,12 +132,35 @@ function checkNetStatus() {
 }
 
 /*
+ * Deletes the plant at the passed
+ * index from modules as well as the UI
+ */
+function deletePlant(channel){
+    var index;
+    for(var i = 0 ; i < modules.length ; ++i){
+        if(modules[i].channel == channel){
+            index = i;
+            break;
+          }
+    }
+    var ret = confirm('Are you sure that you want to delete "' + modules[index].name + '" ?')
+    var plant = document.getElementById(channel);
+    stopBubbling = true;
+    if(ret == true) {
+        plant.parentNode.removeChild(plant);
+        modules.splice(index,1);
+        writeStorage();
+    }
+}
+
+/*
  * Creates a new plant div and returns it
  */
-function newPlant(module_i,id) {
+function newPlant(module_i) {
   var plant = document.createElement('div');
+  plant.id = module_i.channel;
   plant.className = "col-xs-6 col-lg-4";
-  plant.innerHTML = '<div onclick="openGraph(' + module_i.channel + ')" class="col-xs-12 col-lg-12 well plant" id="' + id + '" >\
+  plant.innerHTML = '<div onclick="openGraph(' + module_i.channel + ')" class="col-xs-12 col-lg-12 well plant">\
     <div class="row">\
         <div class="col-xs-2 col-lg-2">\
            <br />\
@@ -144,8 +168,9 @@ function newPlant(module_i,id) {
         </div>\
         <div class="info text-center col-xs-10 col-lg-10" id="info12">\
            <div><br />Name: ' + module_i.name + '<br /></div>\
-           <div id="moisture_' + id + '">Moisture: ' + module_i.moisture + '% <br /></div>\
-           <div id="lastUpdated_' + id + '">Updated: ' + module_i.lastUpdated + '<br /><br /></div>\
+           <div id="moisture_' + module_i.channel + '">Moisture: ' + module_i.moisture + '% <br /></div>\
+           <div id="lastUpdated_' + module_i.channel + '">Updated: ' + module_i.lastUpdated + '<br /><br /></div>\
+           <i class="fa fa-trash" aria-hidden="true" style="font-size:2em" onclick="deletePlant(' + module_i.channel +')"></i>\
         </div>\
     </div>\
   </div>';
@@ -156,10 +181,10 @@ function newPlant(module_i,id) {
 /* Add the parameter to the UI, just
  * before the Add Button block
  */
-function addPlantUI(module_i,index){
+function addPlantUI(module_i){
   var plantList = document.getElementById("plantList");
   var addBtn = document.getElementById("addBtn");
-  plantList.insertBefore(newPlant(module_i,index),addBtn);
+  plantList.insertBefore(newPlant(module_i),addBtn);
   $(".well").hover(function () {
     $(this).css("background-color", "#4a4a55", "border-color", "#4a4a55");
     }, function(){
@@ -181,7 +206,7 @@ function addPlantUI(module_i,index){
 function addAllPlants() {
     console.log(modules);
     for(var i = 0 ; i < modules.length ; ++i) {
-        addPlantUI(modules[i],i);
+        addPlantUI(modules[i]);
     }
 }
 
@@ -216,6 +241,10 @@ function addAllPlants() {
  }
 
  function openGraph(channel) {
+   if(stopBubbling == true) {
+        stopBubbling = false;
+        return;
+   }
    if(navigator.onLine){
      var graphWindow = new BrowserWindow({width: 450, height: 280, show: false})
      var URL = 'https://thingspeak.com/channels/' + channel +
