@@ -14,11 +14,11 @@ html{
   cursor: default;
 }
 button{
-  padding: 0;
-  border: #83ccdc;
-  background: none;
-  outline: #83ccdc;
   font-size: 1.5em;
+  background: none;
+  border: 2px solid #83ccdc;
+	color: #83ccdc;
+  border-radius: 10px;
 }
 form{
   font-size: 1.5em;

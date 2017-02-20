@@ -50,7 +50,6 @@ app.on('ready', function() {
    //Toggle plant addition window visibilty on request
    ipcMain.on('toggle-add-window', function() {
      if(!addWindow.isVisible()){
-       addWindow.reload()
        addWindow.on('ready-to-show', function() {
          addWindow.show()
        })
@@ -58,6 +57,7 @@ app.on('ready', function() {
      }
      else{
        addWindow.hide();
+       addWindow.reload()
      }
    })
 
